@@ -14,8 +14,12 @@ float MAX = 50;
 
 float v_fader1;
 float v_fader2;
+float v_fader3;
+float v_fader5;
 float x1;
 float x2;
+float x3;
+float x5;
 float transparency;
 
 void setup() {
@@ -42,9 +46,16 @@ void oscEvent(OscMessage theOscMessage) {
     v_fader1 = val;
   } else if (addr.equals("/1/fader2")) { 
     v_fader2 = val;
+  } else if (addr.equals("/1/fader3")) {
+    v_fader3 = val;
+  } else if (addr.equals("/1/fader5")){
+    v_fader5 = val;
+    
   }
   x1 =  v_fader1;
   x2 =  v_fader2;
+  x3 =  v_fader3;
+  x5 =  v_fader5;
 }
 
 
@@ -53,18 +64,25 @@ void oscEvent(OscMessage theOscMessage) {
 
 void draw() {
 
-  fill(c1, 100);
+  blendMode(NORMAL);
+  fill(c1,150);
   rect(0, 0, width, height);
   r = x1;
-
-  MAX = x2;
+/*
+if((x5 > 0)&&(x5<2)){
+  blendMode(ADD);
+} else {
+ blendMode(NORMAL); 
+ fill(76, 169, 232,r);
+ //ellipse(width/2, height/2, r,r);
+}
+*/
+  //MAX = x1;
   transparency = x2;
-  fill(c2, transparency);
+  fill(c2);
+  count = x3/2;
 
 
-
-  println("r > " + r);
-  println("count > " + count);
   pushMatrix();
   translate(width / 2, height / 2);
   for (int n = 1; n < count; n++) {
@@ -78,8 +96,13 @@ void draw() {
     }
   }
 
-  
-
-
   popMatrix();
+
+  println("fader1 > " + x1);
+  println("fader2 > " + x2);
+  println("fader3 > " + x3);
+
+  println("r > " + r);
+  println("count > " + count);
+  println("MAX > " + MAX);
 }
